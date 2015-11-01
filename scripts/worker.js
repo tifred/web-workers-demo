@@ -11,7 +11,27 @@ this.onmessage = function(e) {
       g = imageData.data[i * 4 + 1];
       b = imageData.data[i * 4 + 2];
       a = imageData.data[i * 4 + 3];
-      pixel = manipulate(type, r, g, b, a);
+
+      switch (type) {
+	case "invert":
+	  func = makePixelInverted;
+	  break;
+	case "chroma":
+	  func = makePixelChroma;
+	  break;
+	case "greyscale":
+	  func = makePixelGreyScale;
+	  break;
+	case "vibrant":
+	  func = makePixelVibrant;
+	  break;
+	default:
+	  console.log("Not a valid image manipulation");
+	  break;
+        }
+
+      pixel = manipulate(func, r, g, b, a);
+
       imageData.data[i * 4 + 0] = pixel[0];
       imageData.data[i * 4 + 1] = pixel[1];
       imageData.data[i * 4 + 2] = pixel[2];
